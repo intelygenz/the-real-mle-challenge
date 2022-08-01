@@ -32,7 +32,7 @@ def test_rename_columns_with_column_name():
     expected_columns = ["neighbourhood"]
 
     # WHEN executed rename columns
-    rename_columns(df=df_test)
+    df_test = rename_columns(df=df_test)
 
     # THEN the columns name has to be like expected
     assert expected_columns == df_test.columns
@@ -45,7 +45,7 @@ def test_rename_columns_without_column_name():
     expected_columns = ["other_column"]
 
     # WHEN executed rename columns
-    rename_columns(df=df_test)
+    df_test = rename_columns(df=df_test)
 
     # THEN the columns name has to be like expected
     assert expected_columns == df_test.columns
@@ -60,7 +60,7 @@ def test_preprocess_nan_values():
     expected_column_b = ["a", "b"]
 
     # WHEN executed rename columns
-    preprocess_nan(df=df_test)
+    df_test = preprocess_nan(df=df_test)
 
     # THEN the columns name has to be like expected
     assert expected_size == len(df_test), "Wrong size of dataframe"

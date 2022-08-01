@@ -27,15 +27,18 @@ def prepare_bathrooms_column(text: str) -> float:
         return np.NaN
 
 
-def rename_columns(df: pd.DataFrame) -> None:
+def rename_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     Rename the column in the dataframe
 
     Args:
         df (pd.DataFrame): preprocess dataframe
+
+    Returns:
+        pd.DataFrame: the dataframe updated
     """
 
-    df.rename(columns={DataRawColumns.NEIGHBOURHOOD_GROUP_CLEANSED: DataPreprocessColumns.NEIGHBOURHOOD}, inplace=True)
+    return df.rename(columns={DataRawColumns.NEIGHBOURHOOD_GROUP_CLEANSED: DataPreprocessColumns.NEIGHBOURHOOD})
 
 
 def preprocess_nan(df: pd.DataFrame) -> None:
@@ -44,15 +47,19 @@ def preprocess_nan(df: pd.DataFrame) -> None:
 
     Args:
         df (pd.DataFrame): preprocess dataframe
+
+    Returns:
+        pd.DataFrame: the dataframe updated
     """
-    df.dropna(axis=0, inplace=True)
+    return df.dropna(axis=0)
 
 
-def preprocess_low_prices():
-    pass
+def preprocess_categorical_column() -> pd.DataFrame:
+    """_summary_
 
-
-def create_categorical_column():
+    Returns:
+        pd.DataFrame: _description_
+    """
     pass
 
 
@@ -80,9 +87,10 @@ def preprocess(df: pd.DataFrame, preprocess_path: str) -> None:
     df_preprocess = df_preprocess[DataRawColumns.SUBSET_TRAINING]
 
     # Rename columns
-    rename_columns(df_preprocess)
-    print(len(df_preprocess))
+    df_preprocess = rename_columns(df_preprocess)
 
     # Deal with nan values
-    preprocess_nan(df_preprocess)
-    print(len(df_preprocess))
+    df_preprocess = preprocess_nan(df_preprocess)
+
+    # Prepare categorical column
+    df_preprocess = preprocess_categorical_column(df_preprocess)
