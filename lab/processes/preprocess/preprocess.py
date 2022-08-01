@@ -6,7 +6,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from processes.preprocess.config import DataPreprocessColumns, DataRawColumns
+from processes.preprocess.config import ConfigPreprocess, DataPreprocessColumns, DataRawColumns
 
 logger = logging.getLogger(__name__)
 
@@ -54,13 +54,29 @@ def preprocess_nan(df: pd.DataFrame) -> None:
     return df.dropna(axis=0)
 
 
-def preprocess_categorical_column() -> pd.DataFrame:
-    """_summary_
+def preprocess_categorical_column(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Prepare the categorical column
+
+    Args:
+        df (pd.DataFrame): preprocess dataframe
 
     Returns:
-        pd.DataFrame: _description_
+        pd.DataFrame: the dataframe updated
     """
-    pass
+    # Convert price to value
+    df[DataPreprocessColumns.PRICE] = df[DataPreprocessColumns.PRICE].str.extract(r"(\d+).")
+    df[DataPreprocessColumns.PRICE] = df[DataPreprocessColumns.PRICE].astype(int)
+
+    # Remove values below configured value
+    df = df[df[DataPreprocessColumns.PRICE] >= ConfigPreprocess.MIN_PRICE].copy()
+
+    # Categorize values
+    df[DataPreprocessColumns.CATEGORY] = pd.cut(
+        df[DataPreprocessColumns.PRICE], bins=ConfigPreprocess.BINS_PRICE, labels=ConfigPreprocess.LABELS_PRICE
+    )
+
+    return df
 
 
 def create_new_columns():
@@ -94,3 +110,6 @@ def preprocess(df: pd.DataFrame, preprocess_path: str) -> None:
 
     # Prepare categorical column
     df_preprocess = preprocess_categorical_column(df_preprocess)
+
+    # Prepare new columns
+    df_preprocess = create_new_columns()

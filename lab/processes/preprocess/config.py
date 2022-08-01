@@ -2,6 +2,8 @@
 This file contain the class that encapsulate config for preprocess
 """
 
+import numpy as np
+
 
 class DataRawColumns:
     """
@@ -54,6 +56,7 @@ class DataPreprocessColumns:
     BEDROOMS = "bedrooms"
     BEDS = "beds"
     PRICE = "price"
+    CATEGORY = "category"
 
 
 class ConfigPreprocess:
@@ -61,6 +64,11 @@ class ConfigPreprocess:
     This class encapsulate the config
     """
 
-    # PATHS
+    # Paths
     RAW_FILE = "data/raw/listings.csv"
     PREPROCESS_FILE = "data/processed/new_processed_listings.csv"
+
+    # Preprocess config
+    MIN_PRICE = 10
+    BINS_PRICE = [10, 90, 180, 400, np.inf]
+    LABELS_PRICE = [0, 1, 2, 3]
