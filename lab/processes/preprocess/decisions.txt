@@ -1,0 +1,11 @@
+PREPROCES:
+- Create bathrooms column with the numbers of bathrooms
+- Rename column neighbourhood_group_cleansed for neighbourhood
+- Check missing values and drop it
+- Remove price between 0 and 10
+- Create a categorical price column
+- Create new columns from amenities
+
+
+Decisiones:
+- Se crea una clase config para encapsular la configuración y no usar string mágicos
