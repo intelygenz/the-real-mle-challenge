@@ -12,6 +12,8 @@ scikit-learn = "==1.1.1"
 [dev-packages]
 ipykernel = "==6.15.1"
 seaborn = "==0.11.2"
+pytest = "==7.1.2"
+pylint = "==2.14.5"
 
 [requires]
 python_version = "3.9"
