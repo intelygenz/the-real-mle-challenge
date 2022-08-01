@@ -38,8 +38,14 @@ def rename_columns(df: pd.DataFrame) -> None:
     df.rename(columns={DataRawColumns.NEIGHBOURHOOD_GROUP_CLEANSED: DataPreprocessColumns.NEIGHBOURHOOD}, inplace=True)
 
 
-def preprocess_nan():
-    pass
+def preprocess_nan(df: pd.DataFrame) -> None:
+    """
+    This function deal with nan values in the dataframe
+
+    Args:
+        df (pd.DataFrame): preprocess dataframe
+    """
+    df.dropna(axis=0, inplace=True)
 
 
 def preprocess_low_prices():
@@ -75,3 +81,8 @@ def preprocess(df: pd.DataFrame, preprocess_path: str) -> None:
 
     # Rename columns
     rename_columns(df_preprocess)
+    print(len(df_preprocess))
+
+    # Deal with nan values
+    preprocess_nan(df_preprocess)
+    print(len(df_preprocess))
