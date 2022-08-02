@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 
 from processes.preprocess.preprocess import (
+    create_new_column,
     prepare_bathrooms_column,
     preprocess_categorical_column,
     preprocess_nan,
@@ -90,3 +91,18 @@ def test_preprocess_categorical_column():
     # AND must have expected counts
     for i, value in enumerate(df_test["category"].value_counts()):
         assert value == expected_count[i], "Wrong count for category " + str(i)
+
+
+def test_create_new_column():
+    # GIVEN a dataframe with a simple column
+    data_raw = [["the one"], ["the search_value two"], ["the three"], ["four search_value"], ["five"]]
+    df_test = pd.DataFrame(data_raw, columns=["description"])
+    expected_new_column = [0, 1, 0, 1, 0]
+
+    # WHEN execute create_new_column
+    df_test = create_new_column(df_test, "description", "search_value")
+
+    # THEN the dataframe have two columns
+    assert len(df_test.columns) == 2, "Wrong number of columns"
+    assert list(df_test.columns) == ["description", "search_value"], "Wrong name of columns"
+    assert list(df_test["search_value"].values) == expected_new_column, "Wrong values in columns"

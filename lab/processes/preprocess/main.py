@@ -5,7 +5,7 @@ import logging
 
 import pandas as pd
 
-from processes.preprocess.config import ConfigPreprocess
+from processes.config import ConfigPreprocess
 from processes.preprocess.preprocess import preprocess
 
 logging.basicConfig(
@@ -22,4 +22,7 @@ if __name__ == "__main__":
     df_raw = pd.read_csv(ConfigPreprocess.RAW_FILE)
 
     # Preprocess dataset
-    preprocess(df=df_raw, preprocess_path=ConfigPreprocess.PREPROCESS_FILE)
+    df_result = preprocess(df=df_raw)
+
+    # Save the preprocess dataframe
+    df_result.to_csv(ConfigPreprocess.PREPROCESS_FILE)

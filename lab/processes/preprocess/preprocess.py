@@ -6,7 +6,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from processes.preprocess.config import ConfigPreprocess, DataPreprocessColumns, DataRawColumns
+from processes.config import ConfigPreprocess, DataPreprocessColumns, DataRawColumns
 
 logger = logging.getLogger(__name__)
 
@@ -79,17 +79,59 @@ def preprocess_categorical_column(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def create_new_columns():
-    pass
-
-
-def preprocess(df: pd.DataFrame, preprocess_path: str) -> None:
+def create_new_column(df: pd.DataFrame, column_search: str, new_column_name: str) -> pd.DataFrame:
     """
-    Preprocess dataframe and save the info in a new dataframe
+    Create a new column if the text contains a specific text
+
+    Args:
+        df (pd.DataFrame): dataframe for search and create new column
+        column_search (str): column where search the text
+        new_column_name (str): new column name and text to search in original column
+
+    Returns:
+        pd.DataFrame: the dataframe updated
+    """
+    df[new_column_name] = df[column_search].str.contains(new_column_name)
+    df[new_column_name] = df[new_column_name].astype(int)
+    return df
+
+
+def preprocess_amenities_column(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create new columns in from amenities column
+
+    Args:
+        df (pd.DataFrame): preprocess dataframe
+
+    Returns:
+        pd.DataFrame: the dataframe updated
+    """
+    columns_to_add = [
+        DataPreprocessColumns.TV,
+        DataPreprocessColumns.INTERNET,
+        DataPreprocessColumns.AIR_CONDITIONING,
+        DataPreprocessColumns.KITCHEN,
+        DataPreprocessColumns.HEATING,
+        DataPreprocessColumns.WIFI,
+        DataPreprocessColumns.ELEVATOR,
+        DataPreprocessColumns.BREAKFAST,
+    ]
+
+    for new_column in columns_to_add:
+        df = create_new_column(df=df, column_search=DataRawColumns.AMENITIES, new_column_name=new_column)
+
+    return df.drop(DataRawColumns.AMENITIES, axis=1)
+
+
+def preprocess(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Preprocess the original dataframe
 
     Args:
         df (pd.DataFrame): dataframe to preprocess
-        preprocess_path (str): path to save the solution
+
+    Returns:
+        pd.DataFrame: the dataframe updated
     """
     # Create a copy of df
     df_preprocess = df.copy()
@@ -112,4 +154,6 @@ def preprocess(df: pd.DataFrame, preprocess_path: str) -> None:
     df_preprocess = preprocess_categorical_column(df_preprocess)
 
     # Prepare new columns
-    df_preprocess = create_new_columns()
+    df_preprocess = preprocess_amenities_column(df_preprocess)
+
+    return df_preprocess

@@ -57,6 +57,14 @@ class DataPreprocessColumns:
     BEDS = "beds"
     PRICE = "price"
     CATEGORY = "category"
+    TV = "TV"
+    INTERNET = "Internet"
+    AIR_CONDITIONING = "Air_conditioning"
+    KITCHEN = "Kitchen"
+    HEATING = "Heating"
+    WIFI = "Wifi"
+    ELEVATOR = "Elevator"
+    BREAKFAST = "Breakfast"
 
 
 class ConfigPreprocess:
