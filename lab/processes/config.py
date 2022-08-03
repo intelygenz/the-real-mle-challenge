@@ -69,7 +69,7 @@ class DataPreprocessColumns:
 
 class ConfigPreprocess:
     """
-    This class encapsulate the config
+    This class encapsulate the config for preprocess
     """
 
     # Paths
@@ -80,3 +80,37 @@ class ConfigPreprocess:
     MIN_PRICE = 10
     BINS_PRICE = [10, 90, 180, 400, np.inf]
     LABELS_PRICE = [0, 1, 2, 3]
+    MAPING_COLUMNS = {
+        DataPreprocessColumns.NEIGHBOURHOOD: {
+            "Shared room": 1,
+            "Private room": 2,
+            "Entire home/apt": 3,
+            "Hotel room": 4,
+        },
+        DataPreprocessColumns.ROOM_TYPE: {"Bronx": 1, "Queens": 2, "Staten Island": 3, "Brooklyn": 4, "Manhattan": 5},
+    }
+
+
+class ConfigTrain:
+    """
+    This class encapsulate the config for train process
+    """
+
+    FEATURE_NAMES = [
+        DataPreprocessColumns.NEIGHBOURHOOD,
+        DataPreprocessColumns.ROOM_TYPE,
+        DataPreprocessColumns.ACCOMMODATES,
+        DataPreprocessColumns.BATHROOMS,
+        DataPreprocessColumns.BEDROOMS,
+    ]
+    FEATURE_CATEGORY = DataPreprocessColumns.CATEGORY
+
+    # Split parameters
+    TEST_SIZE = 1
+    RANDOM_STATE_SPLIT = 1
+
+    # Train parameters
+    N_ESTIMATORS = 500
+    RANDOM_STATE_TRAIN = 0
+    CLASS_WEIGHT = "balanced"
+    N_JOBS = 4
