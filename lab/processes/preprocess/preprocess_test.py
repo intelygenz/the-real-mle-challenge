@@ -127,7 +127,6 @@ def test_preprocess_mapping_columns(neighborhood, room, expected_neighborhood, e
 
     # WHEN executed it
     df_test = preprocess_mapping_columns(df_test)
-    print(df_test.head())
 
     # THEN the results must be like expected
     assert len(df_test) == 1, "Wrong size of dataframe"

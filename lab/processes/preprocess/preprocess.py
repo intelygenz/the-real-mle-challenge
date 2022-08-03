@@ -155,15 +155,12 @@ def preprocess(df: pd.DataFrame) -> pd.DataFrame:
     df_preprocess = df.copy()
 
     # Create bathrooms column from bathrooms text
-    df_preprocess[DataRawColumns.BATHROOMS] = df_preprocess[DataRawColumns.BATHROOMS_TEXT].map(
-        lambda text: prepare_bathrooms_column(text=text)
+    df_preprocess[DataRawColumns.BATHROOMS] = df_preprocess[DataRawColumns.BATHROOMS_TEXT].apply(
+        prepare_bathrooms_column
     )
 
     # Get columns of interest
     df_preprocess = df_preprocess[DataRawColumns.SUBSET_TRAINING]
-
-    # Deal with nan values
-    df_preprocess = preprocess_nan(df_preprocess)
 
     # Rename columns
     df_preprocess = rename_columns(df_preprocess)
@@ -176,5 +173,8 @@ def preprocess(df: pd.DataFrame) -> pd.DataFrame:
 
     # Prepare mapping columns
     df_preprocess = preprocess_mapping_columns(df_preprocess)
+
+    # Deal with nan values
+    df_preprocess = preprocess_nan(df_preprocess)
 
     return df_preprocess

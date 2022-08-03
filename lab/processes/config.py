@@ -81,13 +81,19 @@ class ConfigPreprocess:
     BINS_PRICE = [10, 90, 180, 400, np.inf]
     LABELS_PRICE = [0, 1, 2, 3]
     MAPING_COLUMNS = {
-        DataPreprocessColumns.NEIGHBOURHOOD: {
+        DataPreprocessColumns.ROOM_TYPE: {
             "Shared room": 1,
             "Private room": 2,
             "Entire home/apt": 3,
             "Hotel room": 4,
         },
-        DataPreprocessColumns.ROOM_TYPE: {"Bronx": 1, "Queens": 2, "Staten Island": 3, "Brooklyn": 4, "Manhattan": 5},
+        DataPreprocessColumns.NEIGHBOURHOOD: {
+            "Bronx": 1,
+            "Queens": 2,
+            "Staten Island": 3,
+            "Brooklyn": 4,
+            "Manhattan": 5,
+        },
     }
 
 
