@@ -102,6 +102,7 @@ class ConfigTrain:
     This class encapsulate the config for train process
     """
 
+    # Features info
     FEATURE_NAMES = [
         DataPreprocessColumns.NEIGHBOURHOOD,
         DataPreprocessColumns.ROOM_TYPE,
@@ -112,7 +113,7 @@ class ConfigTrain:
     FEATURE_CATEGORY = DataPreprocessColumns.CATEGORY
 
     # Split parameters
-    TEST_SIZE = 1
+    TEST_SIZE = 0.15
     RANDOM_STATE_SPLIT = 1
 
     # Train parameters
@@ -120,3 +121,6 @@ class ConfigTrain:
     RANDOM_STATE_TRAIN = 0
     CLASS_WEIGHT = "balanced"
     N_JOBS = 4
+
+    # Paths
+    FOLDER_PATH = "models/"
