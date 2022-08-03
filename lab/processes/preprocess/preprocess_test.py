@@ -10,6 +10,7 @@ from processes.preprocess.preprocess import (
     create_new_column,
     prepare_bathrooms_column,
     preprocess_categorical_column,
+    preprocess_mapping_columns,
     preprocess_nan,
     rename_columns,
 )
@@ -106,3 +107,29 @@ def test_create_new_column():
     assert len(df_test.columns) == 2, "Wrong number of columns"
     assert list(df_test.columns) == ["description", "search_value"], "Wrong name of columns"
     assert list(df_test["search_value"].values) == expected_new_column, "Wrong values in columns"
+
+
+@pytest.mark.parametrize(
+    "neighborhood, room, expected_neighborhood, expected_room",
+    [
+        ("Shared room", "Queens", 1, 2),
+        ("Private room", "Bronx", 2, 1),
+        ("Hotel room", "Brooklyn", 4, 4),
+        ("Shared room", "Bronx", 1, 1),
+        ("Hotel room", "Manhattan", 4, 5),
+        ("Entire home/apt", "Staten Island", 3, 3),
+    ],
+)
+def test_preprocess_mapping_columns(neighborhood, room, expected_neighborhood, expected_room):
+    # GIVEN  dataframe with columns to map
+    data_raw = [[neighborhood, room]]
+    df_test = pd.DataFrame(data_raw, columns=["neighbourhood", "room_type"])
+
+    # WHEN executed it
+    df_test = preprocess_mapping_columns(df_test)
+    print(df_test.head())
+
+    # THEN the results must be like expected
+    assert len(df_test) == 1, "Wrong size of dataframe"
+    assert df_test.loc[0, "neighbourhood"] == expected_neighborhood, "Wrong category for neighborhood"
+    assert df_test.loc[0, "room_type"] == expected_room, "Wrong category for room type"

@@ -21,6 +21,7 @@ def prepare_bathrooms_column(text: str) -> float:
     Returns:
         float: _description_
     """
+
     try:
         return float(text.split(" ")[0]) if isinstance(text, str) else np.NaN
     except ValueError:
@@ -123,6 +124,22 @@ def preprocess_amenities_column(df: pd.DataFrame) -> pd.DataFrame:
     return df.drop(DataRawColumns.AMENITIES, axis=1)
 
 
+def preprocess_mapping_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert in categorical with map some columns
+
+    Args:
+        df (pd.DataFrame): dataframe to transform
+
+    Returns:
+        pd.DataFrame: dataframe updated
+    """
+    for column, mapping in ConfigPreprocess.MAPING_COLUMNS.items():
+        df[column] = df[column].map(mapping)
+
+    return df
+
+
 def preprocess(df: pd.DataFrame) -> pd.DataFrame:
     """
     Preprocess the original dataframe
@@ -133,27 +150,31 @@ def preprocess(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: the dataframe updated
     """
+
     # Create a copy of df
     df_preprocess = df.copy()
 
     # Create bathrooms column from bathrooms text
-    df_preprocess[DataRawColumns.BATHROOMS] = df_preprocess[DataRawColumns.BATHROOMS_TEXT].apply(
-        prepare_bathrooms_column
+    df_preprocess[DataRawColumns.BATHROOMS] = df_preprocess[DataRawColumns.BATHROOMS_TEXT].map(
+        lambda text: prepare_bathrooms_column(text=text)
     )
 
     # Get columns of interest
     df_preprocess = df_preprocess[DataRawColumns.SUBSET_TRAINING]
 
-    # Rename columns
-    df_preprocess = rename_columns(df_preprocess)
-
     # Deal with nan values
     df_preprocess = preprocess_nan(df_preprocess)
+
+    # Rename columns
+    df_preprocess = rename_columns(df_preprocess)
 
     # Prepare categorical column
     df_preprocess = preprocess_categorical_column(df_preprocess)
 
     # Prepare new columns
     df_preprocess = preprocess_amenities_column(df_preprocess)
+
+    # Prepare mapping columns
+    df_preprocess = preprocess_mapping_columns(df_preprocess)
 
     return df_preprocess
