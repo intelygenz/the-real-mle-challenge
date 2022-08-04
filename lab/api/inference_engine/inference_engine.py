@@ -1,7 +1,6 @@
 """
 This file contains all functions related with the inference process
 """
-import logging
 import pickle
 
 import numpy as np
@@ -9,8 +8,6 @@ from fastapi import HTTPException
 
 from api.models.inference_models import InferenceRequest
 from api.settings import AppSettings
-
-logger = logging.getLogger(__name__)
 
 
 class InferenceEngine:
