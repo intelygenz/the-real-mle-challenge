@@ -48,3 +48,24 @@ The key is to ensure the API is easy to use and easy to test. Feel free to archi
 ## Challenge 3 - Dockerize your solution
 
 Nowadays, we can't think of ML solutions in production without thinking about Docker and its benefits in terms of standardisation, scalability and performance. The objective here is to dockerize your API and ensure it is easy to deploy and run in production.
+
+## Solution
+
+In this section I've included comments, reasons and decisions taken about ml-challenge
+
+### Challenge-1
+- I think that is convenient drop the column 'price' if we extract the category from this column (Talk with DS)
+- I've created several config classes. This classes encapsulate config information and, depending of where will be deploy, have to be refactored for read this config file from different origins (environment variables, config files, etc)
+- Amenities has been desglosed in several other columns, but not used in the inference process. I've tried to included these columns but the improve in the model is minimal. Should I include it? (Talk with DS)
+- Could we categorize property_type to? (Talk with DS)
+- I've included the metrics in the final pickle with the model, like dictionary. Maybe with this information could be interesting use some framework like ML Flow
+
+### Challenge-2
+- The api is as simple as possible and for time I haven't included enough testing on this part. These have to be the next steps
+
+### Challenge-3
+- I've only included the dockerfile and script for launch the api, not the code for running the container with this image. The instructions are as follows:
+  ```
+  docker build -t ml-challenge
+  docker run --name ml-challenge-container -p 80:80 ml-challenge
+  ```
