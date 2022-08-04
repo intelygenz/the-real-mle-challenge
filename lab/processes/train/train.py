@@ -21,7 +21,7 @@ def train(df: pd.DataFrame):
         df (pd.DataFrame): preprocessed dataframe
     """
 
-    X, y = df[ConfigTrain.FEATURE_NAMES], df[ConfigTrain.FEATURE_CATEGORY]
+    X, y = df[ConfigTrain.FEATURE_NAMES].to_numpy(), df[ConfigTrain.FEATURE_CATEGORY].to_numpy()
 
     # Division train test
     X_train, X_test, y_train, y_test = train_test_split(
@@ -56,4 +56,4 @@ def train(df: pd.DataFrame):
 
     # Save model and result
     model_name = ConfigTrain.FOLDER_PATH + "random_forest_classifier_" + str(train_result.get_date()) + ".pkl"
-    pickle.dump((clf, train_result), open(model_name, "wb"))
+    pickle.dump((clf, train_result.get_dict()), open(model_name, "wb"))
