@@ -1,3 +1,18 @@
 Pipfile
 
 .vscode/
+.ipynb_checkpoints
+__pycache__
+.idea/
+*.bundle
+*.csv
+*.joblib
+*.kvmodel
+*.npy
+*.pt
+*.png
+*.tgz
+.mypy_cache
+.ropeproject
+.coverage
+*.log
