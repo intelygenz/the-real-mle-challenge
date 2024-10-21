@@ -1,24 +1,24 @@
 import pickle
 
 import pandas as pd
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, ClassifierMixin
 
 from api.schemas.listing import ListingSchema
 
-MODEL_PATH = "./models/simple_classifier.pkl"
+MODEL_PATH = "./models/ny_classifier.pkl"
 
-MAP_ROOM_TYPE = {
-    "Shared room": 1,
-    "Private room": 2,
-    "Entire home/apt": 3,
-    "Hotel room": 4
-}
-MAP_NEIGHB = {
+MAP_NEIGHBOURHOOD = {
     "Bronx": 1,
     "Queens": 2,
     "Staten Island": 3,
     "Brooklyn": 4,
     "Manhattan": 5
+}
+MAP_ROOM_TYPE = {
+    "Shared room": 1,
+    "Private room": 2,
+    "Entire home/apt": 3,
+    "Hotel room": 4
 }
 FEATURE_NAMES = [
     "neighbourhood",
@@ -41,12 +41,21 @@ class NYClassifier():
         with open(MODEL_PATH, "rb") as model_file:
             self.model: BaseEstimator = pickle.load(model_file)
 
+        if not isinstance(self.model, ClassifierMixin):
+            raise ValueError("Loaded model is not a classifier")
+        
+    def _preprocess_data(self, data: pd.DataFrame) -> pd.DataFrame:
+        data["neighbourhood"] = data["neighbourhood"].map(MAP_NEIGHBOURHOOD)
+        data["room_type"] = data["room_type"].map(MAP_ROOM_TYPE)
+
+        return data
+
     def predict(self, listing: ListingSchema):
         x = pd.DataFrame(
             [
                 [
-                    MAP_NEIGHB[listing.neighbourhood],
-                    MAP_ROOM_TYPE[listing.room_type],
+                    listing.neighbourhood,
+                    listing.room_type,
                     listing.accommodates,
                     listing.bathrooms,
                     listing.bedrooms,
@@ -54,4 +63,6 @@ class NYClassifier():
             ],
             columns=FEATURE_NAMES,
         )
+        x = self._preprocess_data(x)
+
         return MAP_PREDICTION[self.model.predict(x)[0]]
