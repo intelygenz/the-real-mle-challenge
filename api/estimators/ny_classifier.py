@@ -5,8 +5,6 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 
 from api.schemas.listing import ListingSchema
 
-MODEL_PATH = "./models/ny_classifier.pkl"
-
 MAP_NEIGHBOURHOOD = {
     "Bronx": 1,
     "Queens": 2,
@@ -33,17 +31,23 @@ MAP_PREDICTION = {0.0: "Low", 1.0: "Mid", 2.0: "High", 3.0: "Lux"}
 class NYClassifier():
     """
     New York price classifier.
-    
+
     This classifier predicts the price category of a listing based on its features.
     """
 
-    def __init__(self):
-        with open(MODEL_PATH, "rb") as model_file:
-            self.model: BaseEstimator = pickle.load(model_file)
-
-        if not isinstance(self.model, ClassifierMixin):
+    def __init__(self, model: BaseEstimator):
+        if not isinstance(model, ClassifierMixin):
             raise ValueError("Loaded model is not a classifier")
-        
+
+        self.model = model
+
+    @staticmethod
+    def from_pickle(model_path: str):
+        with open(model_path, "rb") as model_file:
+            model: BaseEstimator = pickle.load(model_file)
+
+        return NYClassifier(model)
+
     def _preprocess_data(self, data: pd.DataFrame) -> pd.DataFrame:
         data["neighbourhood"] = data["neighbourhood"].map(MAP_NEIGHBOURHOOD)
         data["room_type"] = data["room_type"].map(MAP_ROOM_TYPE)

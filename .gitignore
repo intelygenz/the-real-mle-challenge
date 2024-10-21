@@ -1,6 +1,8 @@
 Pipfile
 
 __pycache__/
-.venv/
-.vscode/
-models/
+/.pytest_cache/
+/.venv/
+/.vscode/
+/data/
+/models/
