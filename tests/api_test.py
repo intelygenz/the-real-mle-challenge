@@ -2,8 +2,8 @@ import pytest
 from fastapi.testclient import TestClient
 from sklearn.dummy import DummyClassifier
 
+from api.api import create_app
 from api.estimators.ny_classifier import NYClassifier
-from api.main import create_app
 
 
 @pytest.fixture
