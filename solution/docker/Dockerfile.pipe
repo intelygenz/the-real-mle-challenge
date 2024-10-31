@@ -1,0 +1,24 @@
+FROM python:3.12-slim
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
+
+COPY solution/plots /the-real-mle-challenge/solution/plots
+COPY solution/code /the-real-mle-challenge/solution/code
+COPY data /the-real-mle-challenge/data
+COPY solution/requirements.txt /the-real-mle-challenge/solution/requirements.txt
+
+RUN pip install -r /the-real-mle-challenge/solution/requirements.txt
+
+ENV PYTHONPATH="${PYTHONPATH}:/the-real-mle-challenge/solution/"
+
+WORKDIR /the-real-mle-challenge/solution/
+
+CMD sh -c "\
+python code/test/develope_tests/test_eda.py && \
+python code/test/develope_tests/test_explore_classifier.py && \
+python code/test/test_transformers.py && \
+python code/generate_plots.py && \
+python code/pipeline.py"
+

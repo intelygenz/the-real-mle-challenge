@@ -1,0 +1,32 @@
+services:
+  
+  training-pipeline:
+    container_name: training-pipeline
+    build:
+      context: ../../
+      dockerfile: ./solution/docker/Dockerfile.pipe
+    volumes:
+      - ../models:/the-real-mle-challenge/solution/models
+      - ../plots:/the-real-mle-challenge/solution/plots
+      - ../logs:/the-real-mle-challenge/solution/logs
+    env_file: .env
+     
+  app:
+    container_name: app
+    build:
+      context: ../../
+      dockerfile: ./solution/docker/Dockerfile.app
+    volumes:
+      - ../models:/the-real-mle-challenge/solution/models
+    ports:
+      - 8080:8080
+    env_file: .env
+
+  mlflow:
+    container_name: mlflow
+    build: 
+      context: ../../
+      dockerfile: ./solution/docker/Dockerfile.mlflow
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
