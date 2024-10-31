@@ -1,0 +1,10 @@
+INFO:root:Aplying old code
+INFO:root:Aplying new code
+INFO:root:
+Old code time: 0:00:01.193487
+New code time: 0:00:01.176504
+Same accuracy: True
+Same roc: True
+Same result: True
+Same report: True
+

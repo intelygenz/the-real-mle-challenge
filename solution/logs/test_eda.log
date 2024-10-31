@@ -1,0 +1,7 @@
+INFO:__main__:Aplying old code
+INFO:__main__:Aplying new code
+INFO:__main__:
+Old code time: 0:00:00.131001
+New code time: 0:00:00.168337
+Same result: True
+
