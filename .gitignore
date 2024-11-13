@@ -1,3 +1,9 @@
 Pipfile
 
 .vscode/
+
+# Ignore Python virtual environment folder
+venv/
+
+# Ignore models folder
+# models/
