@@ -1,3 +1,11 @@
+"""
+Main script to execute the ML pipeline, including data loading, preprocessing, 
+training, evaluation, and model saving.
+
+Usage:
+  python main.py
+"""
+
 from pathlib import Path
 import os
 from datetime import datetime
@@ -27,27 +35,38 @@ DIR_NEW_MODEL_PLOTS = DIR_NEW_MODEL / "plots"
 os.makedirs(DIR_DATA_PROCESSED, exist_ok=True)
 os.makedirs(DIR_NEW_MODEL_PLOTS, exist_ok=True)
 
-# Load raw data
-print("Loading raw data ...")
-df = load_raw_data(FILEPATH_DATA)
 
-# Preprocess data and save
-print("Preprocessing data ...")
-df = preprocess_data(df, FILEPATH_PROCESSED)
+def main():
+    print("Starting the ML pipeline...")
 
-# Load model data
-print("Loading preprocessed data ...")
-X, y = load_preprocessed_data(FILEPATH_PROCESSED)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
+    try:
+        # Load raw data
+        print("Loading raw data...")
+        df = load_raw_data(FILEPATH_DATA)
 
-# Train the model
-print("Training model ...")
-model = train_model(X_train, y_train)
+        # Preprocess data and save
+        print("Preprocessing data...")
+        df = preprocess_data(df, FILEPATH_PROCESSED)
 
-# Evaluate the model and save evaluation plots
-print("Evaluating model ...")
-evaluate_model(model, X_test, y_test, DIR_NEW_MODEL_PLOTS)
+        # Load model data
+        print("Loading preprocessed data...")
+        X, y = load_preprocessed_data(FILEPATH_PROCESSED)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
 
-# Save the trained model
-print("Saving model ...")
-save_model(model, DIR_NEW_MODEL / "model.pkl")
+        # Train the model
+        print("Training model...")
+        model = train_model(X_train, y_train)
+
+        # Evaluate the model and save evaluation plots
+        print("Evaluating model...")
+        evaluate_model(model, X_test, y_test, DIR_NEW_MODEL_PLOTS)
+
+        # Save the trained model
+        print("Saving model...")
+        save_model(model, DIR_NEW_MODEL / "model.pkl")
+
+    except Exception as e:
+        print("An error occurred during the pipeline execution: %s", e)
+
+if __name__ == "__main__":
+    main()

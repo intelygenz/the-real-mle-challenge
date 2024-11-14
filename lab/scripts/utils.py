@@ -1,3 +1,15 @@
+"""
+This module provides utility functions for various tasks, including data preprocessing, 
+feature extraction, and plotting model evaluation metrics.
+
+Functions:
+    - preprocess_amenities_column: Processes the 'amenities' column in the dataset, extracting specific features.
+    - num_bathroom_from_text: Extracts the number of bathrooms from a text field.
+    - compute_feature_importance: Generates and saves a plot of feature importances.
+    - compute_confusion_matrix: Generates and saves a normalized confusion matrix plot.
+    - compute_classification_report: Creates a classification report, saves it as a CSV, and generates a plot.
+"""
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,3 +1,12 @@
+"""
+This module provides functions for preprocessing raw data, including cleaning, feature engineering, 
+and transformations necessary for model training.
+
+Functions:
+    - preprocess_data: Cleans and transforms the raw DataFrame, extracts relevant features, 
+      and applies categorical transformations. Saves the preprocessed data to a specified path.
+"""
+
 import numpy as np
 import pandas as pd
 from utils import num_bathroom_from_text, preprocess_amenities_column

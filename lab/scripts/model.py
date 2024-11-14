@@ -1,3 +1,15 @@
+"""
+model.py
+
+This module handles model training, evaluation, saving, and loading for a classification model.
+
+Functions:
+    - train_model: Trains a Random Forest model on the given data.
+    - evaluate_model: Evaluates the model on test data, computing accuracy, ROC AUC, and generating plots.
+    - save_model: Saves the trained model to a file.
+    - load_model: Loads a previously saved model from a file.
+"""
+
 import pickle
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, roc_auc_score
