@@ -3,12 +3,18 @@ import pickle
 import pandas as pd
 from utils import preprocess_listing_input
 from pydantic_models import ListingInput, ListingOutput
+import yaml
 
-# Path to the saved model
-MODEL_PATH = "../models/model_2024-11-13_18-52-17/model.pkl"
+# Load configuration from YAML file
+def load_config():
+    with open("./api/config.yaml", "r") as f:
+        return yaml.safe_load(f)
+    
+config = load_config()
+print("Loaded configuration", config)
 
 # Load the trained model
-with open(MODEL_PATH, "rb") as f:
+with open(config['model']['path'], "rb") as f:
     model = pickle.load(f)
     print("Loaded model:", model)
 

@@ -1,6 +1,5 @@
+fastapi
+uvicorn
 pandas
-numpy
-matplotlib
-jupyterlab
-seaborn
+pyyaml
 scikit-learn
