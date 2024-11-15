@@ -1,0 +1,14 @@
+# Ignore unnecessary files
+.git
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.vscode
+*.egg-info
+.DS_Store
+.idea
+
+# Ignore virtual environment and environment variables
+venv/
+.env
